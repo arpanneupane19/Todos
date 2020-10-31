@@ -2,7 +2,7 @@
 # Copyright ©️ Arpan Neupane 2020.
 # Refer to the README.md for more information.
 
-from flask import Flask, url_for, render_template, flash, redirect, session
+from flask import Flask, url_for, render_template, flash, redirect, session, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, TextAreaField, StringField, PasswordField
@@ -48,6 +48,7 @@ class Todo(db.Model):
     todo = db.Column(db.String(130), nullable=False)
     complete = db.Column(db.Boolean)
     todo_time = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
+    to_be_completed = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 
@@ -92,6 +93,9 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 
+class CreateForm(FlaskForm):
+    todo = StringField(validators=[InputRequired(), Length(min=4, max=30)], render_kw={"placeholder": "Todo Name"})
+
 
 @app.route('/', methods=['GET', "POST"])
 @app.route('/home', methods=['GET', "POST"])
@@ -128,11 +132,33 @@ def logout():
 	logout_user()
 	return redirect(url_for('login'))
 
-
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    return render_template('dashboard.html')
+    todos = Todo.query.filter_by(writer=current_user).all()
+    return render_template('dashboard.html', todos=todos)
+
+
+@app.route('/new-todo', methods=['GET','POST'])
+@login_required
+def create_todo():
+    form = CreateForm()
+    if form.validate_on_submit():
+        new_todo = Todo(todo=form.todo.data, writer=current_user, to_be_completed=request.form['time'], complete=False)
+        db.session.add(new_todo)
+        db.session.commit()
+        return redirect(url_for('dashboard'))
+
+    return render_template('create_todo.html', form=form)
+
+
+@app.route('/delete-todo/<int:todo_id>', methods=['GET', 'POST'])
+@login_required
+def delete_todo(todo_id):
+    todo = Todo.query.filter_by(writer=current_user, id=todo_id).first_or_404()
+    db.session.delete(todo)
+    db.session.commit()
+    return redirect(url_for('dashboard'))
 
 if __name__ == '__main__':
 	app.run(debug=True)

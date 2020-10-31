@@ -3,8 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-	<title>Todos | Dashboard</title>
+
+
+	<title>Todos | Create</title>
 </head>
 <body>
 	<!-- Navbar -->
@@ -26,23 +27,22 @@
 	<!-- Todos Section -->
 	<div class='todos'>
 		<div class='container'>
-			<h1>My Todos</h1>
+			<h1>Create Todo</h1>
 			<hr>
-			<div class='all-todos'>
-				{% for todo in todos %}
-					<div class='todo card'>
-						<div class='todo-info'>
-							<p>{{todo.todo}}</p>
-							<p>Due: {{todo.todo_time.strftime('%I:%M %p')}} UTC</p>
-						</div><br>
-						<div class='icons'>
-							<a class='complete' href="{{ url_for('home')}}"><i class="fas fa-check"></i></a>
-							<a class='delete' href="{{ url_for('delete_todo', todo_id=todo.id)}}"><i class="fas fa-trash-alt"></i></a>
-						</div>
+			<div class='add-todo card'>
+				<form method='POST' action=''>
+					{{form.hidden_tag()}}
+					<div class='form-control'>
+						{{form.todo}}
 					</div>
-				{% endfor %}
+					<div class='form-control'>
+						<p>Complete By:</p><input type='time' name='time'> 
+					</div>
+					<div class='form-control'>
+						<input type='submit' value='Add Todo' class='btn btn-primary'>
+					</div>
+				</form>
 			</div>
-
 		</div>
 
 	</div>
@@ -140,27 +140,22 @@
 			justify-content: center;
 		}
 
-		.icons {
+		.todo {
 			display: flex;
 			flex-direction: column;
 		}
 
-		.todo-info {
-			display: flex;
-			flex-direction: column;
-			line-height: normal;
+		.add-todo .form-control {
+			margin: 30px 0;
 		}
 
-
-
-		.todo .complete {
-			margin-top: 10px;
-			margin-left: 200px;
-			margin-bottom: 5px;
-		}
-		
-		.todo .delete {
-			margin-left: 200px;
+		.add-todo input[type='text']{
+			border: 0;
+			border-bottom: 1px solid #b4becb;
+			width: 100%;
+			padding: 3px;
+			font-size: 16px;
+			outline: none;
 
 		}
 
@@ -180,7 +175,7 @@
 			padding: 20px;
 			margin-bottom: 20px;
 			display: flex;
-			width: 400px;
+			width: 300px;
 			margin-right: 20px;
 		}
 
@@ -212,9 +207,7 @@
 
 	
 
-
 		/* Mobile */
-
 		@media(max-width: 500px) {
 			.navbar {
 				height: 110px;
