@@ -104,6 +104,9 @@ def home():
 		db.session.add(new_user)
 		db.session.commit()
 
+		return redirect(url_for('login'))
+	
+
 	return render_template('home.html', form=form)
 
 
