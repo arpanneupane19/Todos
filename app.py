@@ -132,7 +132,7 @@ def logout():
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-	return "This is the user dashboard."
+    return render_template('dashboard.html')
 
 if __name__ == '__main__':
 	app.run(debug=True)
