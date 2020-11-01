@@ -153,6 +153,20 @@ hr {
 }
 
 
+/* Tablets and under */
+@media(max-width: 768px) {
+
+	.add-todo {
+		justify-self: center;
+		margin: auto;
+	}
+
+	.card { 
+		width: 250px;
+		margin-bottom: 10px;
+	}
+
+}
 
 /* Mobile */
 @media(max-width: 500px) {
@@ -166,6 +180,7 @@ hr {
 
 	.navbar ul {
 		padding: 10px;
+		font-size: small;
 		background-color: rgba(0,0,0,0.1);
 		margin-bottom: 10px;
 	}

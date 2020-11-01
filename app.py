@@ -72,7 +72,7 @@ class User(db.Model, UserMixin):
         return User.query.get(user_id)
 
 class RegisterForm(FlaskForm):
-    email = StringField("Email", validators=[InputRequired(), Email(message="Invalid Email"), Length(max=50)],render_kw={"placeholder": "Email Address"})
+    email = StringField(validators=[InputRequired(), Email(message="Invalid Email"), Length(max=50)],render_kw={"placeholder": "Email Address"})
     username = StringField(validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "Username"})
     password = PasswordField("Password", validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "Password"})
 
@@ -98,6 +98,9 @@ class CreateForm(FlaskForm):
 
 class EditForm(FlaskForm):
     todo = StringField(validators=[InputRequired(), Length(min=4, max=30)], render_kw={"placeholder": "Edit Todo"})
+
+class ForgotPasswordForm(FlaskForm):
+    email = StringField(validators=[InputRequired(), Email(message="Invalid Email"), Length(max=50)],render_kw={"placeholder": "Email Address"})
 
 
 @app.route('/', methods=['GET', "POST"])
@@ -184,6 +187,31 @@ def edit_todo(todo_id):
     elif request.method == 'GET':
         form.todo.data = todo.todo
     return render_template('edit_todo.html', form=form)
+
+
+def send_reset_email(user):
+    token = user.get_reset_token()
+    msg = Message('Forgot your password?',
+                  sender='todos1490@gmail.com',
+                  recipients=[user.email])
+    msg.body = f'''To reset your password, visit the following link:
+    {url_for('reset_password', token=token, _external=True)}
+If you did not make this request then simply ignore this email.
+'''
+    mail.send(msg)
+
+
+# If a user forgets their password
+@app.route("/forgot-password", methods=["GET", "POST"])
+def forgot_password():
+    form = ForgotPasswordForm()
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
+
+    return render_template("forgot_password.html", form=form, title="Forgot Password")
 
 
 if __name__ == '__main__':

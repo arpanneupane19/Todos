@@ -153,6 +153,21 @@ hr {
 }
 
 
+/* Tablets and under */
+@media(max-width: 768px) {
+
+	.edit-todo {
+		justify-self: center;
+		margin: auto;
+	}
+
+	.card { 
+		width: 250px;
+		margin-bottom: 10px;
+	}
+
+}
+
 
 /* Mobile */
 @media(max-width: 500px) {
