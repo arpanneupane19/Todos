@@ -176,6 +176,14 @@ def complete_todo(todo_id):
 @login_required
 def edit_todo(todo_id):
     todo = Todo.query.filter_by(id=todo_id, writer=current_user).first_or_404()
+    form = EditForm()
+    if form.validate_on_submit():
+        todo.todo = form.todo.data
+        db.session.commit()
+        return redirect(url_for('dashboard'))
+    elif request.method == 'GET':
+        form.todo.data = todo.todo
+    return render_template('edit_todo.html', form=form)
 
 
 if __name__ == '__main__':

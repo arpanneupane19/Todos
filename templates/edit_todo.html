@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Todos | Create</title>
+	<link rel='stylesheet' href="{{ url_for('static', filename='edit_todo.css')}}">
+</head>
+<body>
+	<!-- Navbar -->
+	<div class='navbar'>
+		<div class="container flex">
+			<h1 class='logo'>Todos</h1>
+			<nav>
+				<ul>
+					<li><a href='/dashboard'>Home</a></li>
+					<li><a href="/new-todo">Create</a></li>
+					<li><a href="/my-account">Account</a></li>
+					<li><a href='/logout'>Logout</a></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+
+
+	<!-- Todos Section -->
+	<div class='todos'>
+		<div class='container'>
+			<h1>Edit Todo</h1>
+			<hr>
+			<div class='edit-todo card'>
+				<form method='POST' action=''>
+					{{form.hidden_tag()}}
+					<div class='form-control'>
+						{{form.todo}}
+					</div>
+					<div class='form-control'>
+						<input type='submit' value='Add Todo' class='btn btn-primary'>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+
+</body>
+</html>

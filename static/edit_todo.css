@@ -85,34 +85,25 @@ hr {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
-	align-self: center;
 }
 
-.icons {
+.todo {
 	display: flex;
 	flex-direction: column;
 }
 
-.todo-info {
-	display: flex;
-	flex-direction: column;
-	line-height: normal;
+.edit-todo .form-control {
+	margin: 30px 0;
 }
 
+.edit-todo input[type='text']{
+	border: 0;
+	border-bottom: 1px solid #b4becb;
+	width: 100%;
+	padding: 3px;
+	font-size: 16px;
+	outline: none;
 
-
-.todo .complete {
-	margin-top: 10px;
-	margin-left: 200px;
-}
-
-.todo .delete {
-	margin-left: 200px;
-
-}
-
-.todo .edit {
-	margin-left: 200px;
 }
 
 /* Utilities */
@@ -131,7 +122,7 @@ hr {
 	padding: 20px;
 	margin-bottom: 20px;
 	display: flex;
-	width: 424px;
+	width: 300px;
 	margin-right: 20px;
 }
 
@@ -163,9 +154,7 @@ hr {
 
 
 
-
 /* Mobile */
-
 @media(max-width: 500px) {
 	.navbar {
 		height: 110px;
