@@ -26,24 +26,49 @@
 
 	<!-- Todos Section -->
 	<div class='todos'>
-		<div class='container'>
-			<h1>My Todos</h1>
-			<hr>
-			<div class='all-todos'>
-				{% for todo in todos %}
-					<div class='todo card'>
-						<div class='todo-info'>
-							<p>{{todo.todo}}</p>
-							<p>Due: {{todo.todo_time.strftime('%I:%M %p')}} UTC</p>
-						</div><br>
-						<div class='icons'>
-							<a class='complete' href="{{ url_for('home')}}"><i class="fas fa-check"></i></a>
-							<a class='delete' href="{{ url_for('delete_todo', todo_id=todo.id)}}"><i class="fas fa-trash-alt"></i></a>
-						</div>
-					</div>
-				{% endfor %}
-			</div>
 
+		<div class='container'>
+			<h1>My Todos</h1><br>
+			<div class='incomplete-todos'>
+				<h2>Incomplete</h2>
+				<hr>
+				<div class='all-todos'>
+					{% for todo in incomplete_todos %}
+						<div class='todo card'>
+							<div class='todo-info'>
+								<p>{{todo.todo}}</p>
+								<p>Added at {{todo.todo_time.strftime('%I:%M %p')}} UTC</p>
+							</div><br>
+							<div class='icons'>
+								<a class='complete' href="{{ url_for('complete_todo', todo_id=todo.id)}}"><i class="fas fa-check"></i></a>
+								<a class='delete' href="{{ url_for('delete_todo', todo_id=todo.id)}}"><i class="fas fa-trash-alt"></i></a>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class='container'>
+			<div class='complete-todos'>
+				<h2>Complete</h2>
+				<hr>
+				<div class='all-todos'>
+					{% for todo in complete_todos %}
+						<div class='todo card'>
+							<div class='todo-info'>
+								<p>{{todo.todo}}</p>
+								<p>Added at {{todo.todo_time.strftime('%I:%M %p')}} UTC</p>
+							</div><br>
+							<div class='icons'>
+								<a class='delete' href="{{ url_for('delete_todo', todo_id=todo.id)}}"><i class="fas fa-trash-alt"></i></a>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+	
+			</div>
 		</div>
 
 	</div>

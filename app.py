@@ -48,7 +48,6 @@ class Todo(db.Model):
     todo = db.Column(db.String(130), nullable=False)
     complete = db.Column(db.Boolean)
     todo_time = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
-    to_be_completed = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 
@@ -94,7 +93,11 @@ class LoginForm(FlaskForm):
 
 
 class CreateForm(FlaskForm):
-    todo = StringField(validators=[InputRequired(), Length(min=4, max=30)], render_kw={"placeholder": "Todo Name"})
+    todo = StringField(validators=[InputRequired(), Length(min=4, max=30)], render_kw={"placeholder": "Enter Todo"})
+
+
+class EditForm(FlaskForm):
+    todo = StringField(validators=[InputRequired(), Length(min=4, max=30)], render_kw={"placeholder": "Edit Todo"})
 
 
 @app.route('/', methods=['GET', "POST"])
@@ -135,8 +138,9 @@ def logout():
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    todos = Todo.query.filter_by(writer=current_user).all()
-    return render_template('dashboard.html', todos=todos)
+    incomplete_todos = Todo.query.filter_by(writer=current_user, complete=False).all()
+    complete_todos = Todo.query.filter_by(writer=current_user, complete=True).all()
+    return render_template('dashboard.html', incomplete_todos=incomplete_todos, complete_todos=complete_todos)
 
 
 @app.route('/new-todo', methods=['GET','POST'])
@@ -144,7 +148,7 @@ def dashboard():
 def create_todo():
     form = CreateForm()
     if form.validate_on_submit():
-        new_todo = Todo(todo=form.todo.data, writer=current_user, to_be_completed=request.form['time'], complete=False)
+        new_todo = Todo(todo=form.todo.data, writer=current_user, complete=False)
         db.session.add(new_todo)
         db.session.commit()
         return redirect(url_for('dashboard'))
@@ -159,6 +163,20 @@ def delete_todo(todo_id):
     db.session.delete(todo)
     db.session.commit()
     return redirect(url_for('dashboard'))
+
+@app.route('/complete-todo/<int:todo_id>', methods=['GET','POST'])
+@login_required
+def complete_todo(todo_id):
+    todo = Todo.query.filter_by(id=todo_id, writer=current_user).first_or_404()
+    todo.complete = True
+    db.session.commit()
+    return redirect(url_for('dashboard'))
+
+@app.route('/edit-todo/<int:todo_id>', methods=['GET','POST'])
+@login_required
+def edit_todo(todo_id):
+    todo = Todo.query.filter_by(id=todo_id, writer=current_user).first_or_404()
+
 
 if __name__ == '__main__':
 	app.run(debug=True)

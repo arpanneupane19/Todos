@@ -85,6 +85,7 @@ hr {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+	align-self: center;
 }
 
 .icons {
@@ -127,7 +128,7 @@ hr {
 	padding: 20px;
 	margin-bottom: 20px;
 	display: flex;
-	width: 400px;
+	width: 424px;
 	margin-right: 20px;
 }
 
