@@ -102,7 +102,6 @@ hr {
 
 
 .todo .complete {
-	margin-top: 10px;
 	margin-left: 200px;
 }
 
@@ -112,6 +111,7 @@ hr {
 }
 
 .todo .edit {
+	margin-top: 10px;
 	margin-left: 200px;
 }
 

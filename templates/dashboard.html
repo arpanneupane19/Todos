@@ -40,8 +40,8 @@
 								<p>Added at {{todo.todo_time.strftime('%I:%M %p')}} UTC</p>
 							</div><br>
 							<div class='icons'>
-								<a class='complete' href="{{ url_for('complete_todo', todo_id=todo.id)}}"><i class="fas fa-check"></i></a>
 								<a class='edit' href="{{ url_for('edit_todo', todo_id=todo.id)}}"><i class="fas fa-edit"></i></a>
+								<a class='complete' href="{{ url_for('complete_todo', todo_id=todo.id)}}"><i class="fas fa-check"></i></a>
 								<a class='delete' href="{{ url_for('delete_todo', todo_id=todo.id)}}"><i class="fas fa-trash-alt"></i></a>
 							</div>
 						</div>
