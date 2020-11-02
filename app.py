@@ -46,6 +46,7 @@ def make_session_permanent():
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     todo = db.Column(db.String(130), nullable=False)
+    due = db.Column(db.DateTime)
     complete = db.Column(db.Boolean)
     todo_time = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
