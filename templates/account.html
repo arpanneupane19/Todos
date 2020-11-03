@@ -24,6 +24,30 @@
 
 	
 
+
+	<!-- Account card -->
+	<div class='account'>
+		<div class='container'>
+			<h1>{{ current_user.username }}</h1>
+			<hr>
+
+			<div class='edit-account card'>
+				<form method='POST' action=''>
+					{{form.hidden_tag()}}
+					<div class='form-control'>
+						{{form.username}}
+					</div>
+					<div class='form-control'>
+						{{form.email}}
+					</div>
+					<div class='form-control'>
+						<input type='submit' value='Update Account' class='btn btn-primary'>
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
 	
 
 

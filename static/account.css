@@ -77,6 +77,26 @@ hr {
 	justify-content: space-between;
 }
 
+
+.account {
+	margin-top: 50px;
+}
+
+.edit-account .form-control {
+	margin: 30px 0;
+}
+
+
+.edit-account input[type='text']{
+	border: 0;
+	border-bottom: 1px solid #b4becb;
+	width: 250px;
+	padding: 3px;
+	font-size: 16px;
+	outline: none;
+
+}
+
 /* Utilities */
 .container {
 	max-width: 1200px;
@@ -138,7 +158,15 @@ hr {
 		margin-bottom: 10px;
 	}
 
-
+	.edit-account input[type='text']{
+		border: 0;
+		border-bottom: 1px solid #b4becb;
+		width: 210px;
+		padding: 3px;
+		font-size: 16px;
+		outline: none;
+	
+	}
 }
 
 
