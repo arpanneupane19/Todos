@@ -79,6 +79,7 @@ hr {
 /* Todos */
 .todos .container {
 	margin-top: 30px;
+
 }
 
 .all-todos {
@@ -99,6 +100,12 @@ hr {
 	line-height: normal;
 }
 
+.todo-info > .added-time {
+	font-size: 14px;
+}
+.todo-info > .due-date {
+	font-size: 14px;
+}
 
 
 .todo .complete {
