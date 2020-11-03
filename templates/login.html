@@ -31,6 +31,15 @@
 
 		<div class='login-form card'>
 			<h2>Login</h2>
+			{% with messages = get_flashed_messages(with_categories=true) %}
+			{% if messages %}
+				<ul class=flashes>
+				{% for category, message in messages %}
+				<li class="{{ category }}">{{ message }}</li>
+				{% endfor %}
+				</ul>
+			{% endif %}
+			{% endwith %}
 			<form method='POST' action=''>
 				{{form.hidden_tag()}}
 				<div class='form-control'>
@@ -48,11 +57,11 @@
 				<div class='form-control'>
 					<a href='/forgot-password'>Forgot your password?</a>
 				</div>
-				<div class='form-control'>
+				<div class='form-control sign-up'>
 					<a href='/sign-up'>Don't have an account? Sign Up.</a>
 				</div>
 			</form>
-			</div>
+
 		</div>
 
 	</section>
