@@ -96,8 +96,7 @@ class LoginForm(FlaskForm):
 
 class CreateForm(FlaskForm):
     todo = StringField(validators=[InputRequired(), Length(min=4, max=130)], render_kw={"placeholder": "Enter Todo"})
-    due_date = DateField(format='%m/%d/%Y', validators=[InputRequired()], render_kw={"placeholder": "Due date, M/D/Y format."})
-
+    due_date = DateField(format='%m/%d/%Y', validators=[InputRequired()], render_kw={"placeholder": "M/D/Y"})
 
 class EditForm(FlaskForm):
     todo = StringField(validators=[InputRequired(), Length(min=4, max=30)], render_kw={"placeholder": "Edit Todo"})
@@ -147,6 +146,15 @@ def home():
     
 
     return render_template('home.html', form=form)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html')
+
+
+@app.errorhandler(403)
+def page_not_found(e):
+    return "<h1>403 You do not have permission to do that.</h1>", 403
 
 
 @app.route('/login', methods=['GET','POST'])
