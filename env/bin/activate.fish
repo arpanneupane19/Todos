@@ -29,7 +29,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/arpan/Documents/ComputerProgramming/Python/TodoList-2/env"
+set -gx VIRTUAL_ENV "/Users/arpan/Documents/ComputerProgramming/Python/heroku-app/env"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

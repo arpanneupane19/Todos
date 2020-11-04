@@ -95,7 +95,7 @@ class LoginForm(FlaskForm):
 
 class CreateForm(FlaskForm):
     todo = StringField(validators=[InputRequired(), Length(min=4, max=130)], render_kw={"placeholder": "Enter Todo"})
-    time = DateTimeField(validators=[InputRequired()], format='%m/%d/%Y %H:%M:%S', render_kw={"placeholder": "Date & Time"})
+    time = DateTimeField(validators=[InputRequired()], format='%H:%M:%S', render_kw={"placeholder": "Due by"})
 
 class EditForm(FlaskForm):
     todo = StringField(validators=[InputRequired(), Length(min=4, max=30)], render_kw={"placeholder": "Edit Todo"})

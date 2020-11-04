@@ -48,7 +48,7 @@
 							<div class='todo-info'>
 								<p>{{todo.todo}}</p>
 								<p class='added-time'>Added at {{todo.todo_time.strftime('%I:%M %p')}} UTC</p>
-								<p class='due-date'>Due: {{ todo.due_date.strftime("%I:%M %p") }}</p>
+								<p class='due-date'>Due: {{ todo.due_date.strftime("%I:%M:%S %p") }}</p>
 							</div><br>
 							<div class='icons'>
 								<a class='edit' href="{{ url_for('edit_todo', todo_id=todo.id)}}"><i class="fas fa-edit"></i></a>
