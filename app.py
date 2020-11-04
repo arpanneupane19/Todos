@@ -5,9 +5,8 @@
 from flask import Flask, url_for, render_template, flash, redirect, session, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, TextAreaField, StringField, PasswordField, DateTimeField, DateField
+from wtforms import SubmitField, TextAreaField, StringField, PasswordField, DateTimeField
 from wtforms.validators import InputRequired, Length, ValidationError, Email
-from wtforms.fields.html5 import DateTimeLocalField
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_mail import Mail, Message
 import os
@@ -96,7 +95,7 @@ class LoginForm(FlaskForm):
 
 class CreateForm(FlaskForm):
     todo = StringField(validators=[InputRequired(), Length(min=4, max=130)], render_kw={"placeholder": "Enter Todo"})
-    due_date = DateField(format='%m/%d/%Y', validators=[InputRequired()], render_kw={"placeholder": "M/D/Y"})
+    time = DateTimeField(validators=[InputRequired()], format='%m/%d/%Y %H:%M:%S', render_kw={"placeholder": "Date & Time"})
 
 class EditForm(FlaskForm):
     todo = StringField(validators=[InputRequired(), Length(min=4, max=30)], render_kw={"placeholder": "Edit Todo"})
@@ -205,10 +204,9 @@ def account():
 @login_required
 def create_todo():
     form = CreateForm()
-
     if form.validate_on_submit():
-        new_todo = Todo(todo=form.todo.data, writer=current_user, due_date=form.due_date.data, complete=False)
-        db.session.add(new_todo)
+        new_todo = Todo(todo=form.todo.data, writer=current_user, due_date=form.time.data, complete=False)
+        db.session.add(new_todo) 
         db.session.commit()
         return redirect(url_for('dashboard'))
 
