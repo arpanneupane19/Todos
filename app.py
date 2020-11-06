@@ -181,11 +181,17 @@ def logout():
     flash('You have been logged out.')
     return redirect(url_for('login'))
 
+
+
+
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
     incomplete_todos = Todo.query.filter_by(writer=current_user, complete=False).all()
     complete_todos = Todo.query.filter_by(writer=current_user, complete=True).all()
+    for i in incomplete_todos:
+        if datetime.datetime.now() >= i.due_date and i.complete == False:
+            flash(f'Overdue todos: "{i.todo}"')
     return render_template('dashboard.html', incomplete_todos=incomplete_todos, complete_todos=complete_todos)
 
 
