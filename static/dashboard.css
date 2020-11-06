@@ -118,7 +118,10 @@ hr {
 }
 
 .todo .edit {
-	margin-top: 10px;
+	margin-left: 200px;
+}
+
+.todo .important {
 	margin-left: 200px;
 }
 

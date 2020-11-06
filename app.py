@@ -192,7 +192,7 @@ def dashboard():
     for i in incomplete_todos:
         if datetime.datetime.now() >= i.due_date and i.complete == False:
             flash(f'Overdue todos: "{i.todo}"')
-    return render_template('dashboard.html', incomplete_todos=incomplete_todos, complete_todos=complete_todos)
+    return render_template('dashboard.html', incomplete_todos=incomplete_todos, complete_todos=complete_todos, datetime=datetime.datetime.now())
 
 
 @app.route('/my-account', methods=['GET', 'POST'])
