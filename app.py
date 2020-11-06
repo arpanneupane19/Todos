@@ -124,6 +124,9 @@ class UpdateAccountForm(FlaskForm):
             raise ValidationError("That email address belongs to different user. Please choose a different one.")
 
 
+class ChangePassword(FlaskForm):
+    email = StringField(validators=[InputRequired(), Email(message="Invalid Email"), Length(max=50)], render_kw={"placeholder": "Email Address"})
+    new_password = PasswordField(validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "New Password"})
 
 
 @app.route('/', methods=['GET', "POST"])
@@ -209,6 +212,22 @@ def account():
         form.username.data = current_user.username
         form.email.data = current_user.email
     return render_template('account.html', form=form, email=current_user.email, username=current_user.username)
+
+
+@app.route('/change-password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    form = ChangePassword()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        hashed_password = bcrypt.generate_password_hash(form.new_password.data)
+        if user is not None:
+            user.password = hashed_password
+            db.session.commit()
+            flash('Your password has been updated!')
+            return redirect(url_for('account'))
+
+    return render_template('change_password.html', form=form)
 
 @app.route('/new-todo', methods=['GET','POST'])
 @login_required
