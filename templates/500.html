@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Todos | 404</title>
+	<title>Todos | 500</title>
 	<link rel='stylesheet' href="{{ url_for('static', filename='error.css')}}">
 </head>
 <body>
@@ -32,8 +32,8 @@
 	<div class='error'>
 		<div class='container'>
 			<div class='error-msg card'>
-				<h1>404</h1>
-				<p>Oops, looks like that page does not exist.</p>
+				<h1>500</h1>
+				<p>We have encountered an internal server error. Please come back later.</p>
 				{% if current_user.is_authenticated %}
 				<div class='form-control'>
 					<a href='/dashboard' class='btn btn-primary'>Return to dashboard.</a>
