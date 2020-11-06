@@ -153,7 +153,11 @@ def page_not_found(e):
 
 @app.errorhandler(403)
 def page_not_found(e):
-    return "<h1>403 You do not have permission to do that.</h1>", 403
+    return render_template('403.html')
+
+@app.errorhandler(500)
+def page_not_found(e):
+    return render_template('500.html')
 
 
 @app.route('/login', methods=['GET','POST'])
