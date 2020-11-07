@@ -99,6 +99,7 @@ class CreateForm(FlaskForm):
 
 class EditForm(FlaskForm):
     todo = StringField(validators=[InputRequired(), Length(min=4, max=30)], render_kw={"placeholder": "Edit Todo"})
+    time = DateTimeField(validators=None, format='%Y-%m-%d %H:%M', render_kw={"placeholder": "Edit Time (optional)"})
 
 class ForgotPasswordForm(FlaskForm):
     email = StringField(validators=[InputRequired(), Email(message="Invalid Email"), Length(max=50)],render_kw={"placeholder": "Email Address"})
@@ -267,10 +268,12 @@ def edit_todo(todo_id):
     form = EditForm()
     if form.validate_on_submit():
         todo.todo = form.todo.data
+        todo.due_date = form.time.data
         db.session.commit()
         return redirect(url_for('dashboard'))
     elif request.method == 'GET':
         form.todo.data = todo.todo
+        form.time.data = todo.due_date
     return render_template('edit_todo.html', form=form)
 
 

@@ -92,6 +92,7 @@ hr {
 .icons {
 	display: flex;
 	flex-direction: column;
+	margin-left: 190px;
 }
 
 .todo-info {
@@ -108,22 +109,6 @@ hr {
 }
 
 
-.todo .complete {
-	margin-left: 200px;
-}
-
-.todo .delete {
-	margin-left: 200px;
-
-}
-
-.todo .edit {
-	margin-left: 200px;
-}
-
-.todo .important {
-	margin-left: 200px;
-}
 
 /* Utilities */
 .container {
