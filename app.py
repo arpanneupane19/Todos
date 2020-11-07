@@ -221,8 +221,10 @@ def change_password():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         hashed_password = bcrypt.generate_password_hash(form.new_password.data)
-        if user is not None:
-            user.password = hashed_password
+        if form.email.data != current_user.email:
+            flash("Invalid email")
+        else:
+            current_user.password = hashed_password
             db.session.commit()
             flash('Your password has been updated!')
             return redirect(url_for('account'))
