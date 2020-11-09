@@ -56,10 +56,11 @@
 							</div><br>
 							<div class='icons'>
 								{% if datetime >= todo.due_date %}
+									<meta http-equiv="refresh">
 									<script>
 										Push.create("Overdue Todos", {
 											tag: 'overdue',
-											body: "Your overdue todos are listed in the dashboard.",
+											body: "Your overdue todos are listed below.",
 											icon: '../static/todos.png',
 											timeout: 5000,
 											onClick: function () {

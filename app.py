@@ -13,7 +13,6 @@ import os
 from datetime import datetime
 from flask_bcrypt import Bcrypt
 import datetime
-import time
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 app = Flask(__name__)
 db = SQLAlchemy(app)
