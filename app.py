@@ -110,19 +110,22 @@ class ResetPasswordForm(FlaskForm):
     password = PasswordField(validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "New Password"})
 
 
-class UpdateAccountForm(FlaskForm):
-    username = StringField(validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "Username"})
-    email = StringField(validators=[InputRequired(), Email(message="Invalid Email"), Length(max=50)], render_kw={"placeholder": "Email Address"})
 
-    def validate_username(self, username):
-        existing_user_username = User.query.filter_by(username=username.data).first()
-        if existing_user_username:
-            raise ValidationError("That username already exists. Please choose a different one.")
+class UpdateAccountForm(FlaskForm):
+    email = StringField(validators=[InputRequired(), Email(message="Invalid Email"), Length(max=50)], render_kw={"placeholder": "Email"})
+    username = StringField(validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "Username"})
     
+    def validate_username(self, username):
+        if current_user.username != username.data:
+            user = User.query.filter_by(username=username.data).first()
+            if user:
+                raise ValidationError("That username already exists. Please choose a different one.")
+
     def validate_email(self, email):
-        existing_user_email = User.query.filter_by(email=email.data).first()
-        if existing_user_email:
-            raise ValidationError("That email address belongs to different user. Please choose a different one.")
+        if current_user.email != email.data:
+            email = User.query.filter_by(email=email.data).first()
+            if email:
+                raise ValidationError("That email address belongs to different user. Please choose a different one.")
 
 
 class ChangePassword(FlaskForm):
@@ -207,11 +210,12 @@ def account():
         current_user.username = form.username.data
         current_user.email = form.email.data
         db.session.commit()
-        flash('Your account has been updated!', 'success')
+        flash('Your account has been updated!')
         return redirect(url_for('account'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
+
     return render_template('account.html', form=form, email=current_user.email, username=current_user.username)
 
 
