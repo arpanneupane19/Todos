@@ -48,6 +48,7 @@ class Todo(db.Model):
     todo = db.Column(db.String(130), nullable=False)
     complete = db.Column(db.Boolean)
     due_date = db.Column(db.DateTime)
+    time_zone = db.Column(db.String)
     todo_time = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
@@ -95,6 +96,7 @@ class LoginForm(FlaskForm):
 
 class CreateForm(FlaskForm):
     todo = StringField(validators=[InputRequired(), Length(min=4, max=130)], render_kw={"placeholder": "Enter Todo"})
+    timezone = StringField(validators=[InputRequired(), Length(min=4, max=4)], render_kw={"placeholder": "Timezone"})
     time = DateTimeField(validators=[InputRequired()], format='%Y-%m-%d %H:%M', render_kw={"placeholder": "Due by"})
 
 class EditForm(FlaskForm):
@@ -241,10 +243,12 @@ def change_password():
 def create_todo():
     form = CreateForm()
     if form.validate_on_submit():
-        new_todo = Todo(todo=form.todo.data, writer=current_user, due_date=form.time.data, complete=False)
+        new_todo = Todo(todo=form.todo.data, writer=current_user, due_date=form.time.data, time_zone=form.timezone.data, complete=False)
         db.session.add(new_todo) 
         db.session.commit()
         return redirect(url_for('dashboard'))
+
+
 
     return render_template('create_todo.html', form=form)
 
