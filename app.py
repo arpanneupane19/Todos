@@ -10,7 +10,7 @@ from wtforms.validators import InputRequired, Length, ValidationError, Email
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_mail import Mail, Message
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask_bcrypt import Bcrypt
 import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -48,7 +48,6 @@ class Todo(db.Model):
     todo = db.Column(db.String(130), nullable=False)
     complete = db.Column(db.Boolean)
     due_date = db.Column(db.DateTime)
-    time_zone = db.Column(db.String)
     todo_time = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
@@ -96,7 +95,6 @@ class LoginForm(FlaskForm):
 
 class CreateForm(FlaskForm):
     todo = StringField(validators=[InputRequired(), Length(min=4, max=130)], render_kw={"placeholder": "Enter Todo"})
-    timezone = StringField(validators=[InputRequired(), Length(min=4, max=4)], render_kw={"placeholder": "Timezone"})
     time = DateTimeField(validators=[InputRequired()], format='%Y-%m-%d %H:%M', render_kw={"placeholder": "Due by"})
 
 class EditForm(FlaskForm):
@@ -198,10 +196,7 @@ def logout():
 def dashboard():
     incomplete_todos = Todo.query.filter_by(writer=current_user, complete=False).all()
     complete_todos = Todo.query.filter_by(writer=current_user, complete=True).all()
-    for i in incomplete_todos:
-        if datetime.datetime.now() >= i.due_date and i.complete == False:
-            flash(f'Overdue todos: "{i.todo}"')
-    return render_template('dashboard.html', incomplete_todos=incomplete_todos, complete_todos=complete_todos, datetime=datetime.datetime.now())
+    return render_template('dashboard.html', incomplete_todos=incomplete_todos, complete_todos=complete_todos, datetime=datetime.datetime.now()-timedelta(hours=6, minutes=10))
 
 
 @app.route('/my-account', methods=['GET', 'POST'])
@@ -243,7 +238,7 @@ def change_password():
 def create_todo():
     form = CreateForm()
     if form.validate_on_submit():
-        new_todo = Todo(todo=form.todo.data, writer=current_user, due_date=form.time.data, time_zone=form.timezone.data, complete=False)
+        new_todo = Todo(todo=form.todo.data, writer=current_user, due_date=form.time.data, complete=False)
         db.session.add(new_todo) 
         db.session.commit()
         return redirect(url_for('dashboard'))
