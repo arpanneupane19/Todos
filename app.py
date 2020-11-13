@@ -196,7 +196,8 @@ def logout():
 def dashboard():
     incomplete_todos = Todo.query.filter_by(writer=current_user, complete=False).all()
     complete_todos = Todo.query.filter_by(writer=current_user, complete=True).all()
-    return render_template('dashboard.html', incomplete_todos=incomplete_todos, complete_todos=complete_todos, datetime=datetime.datetime.utcnow()-timedelta(hours=6, minutes=10))
+
+    return render_template('dashboard.html', incomplete_todos=incomplete_todos, complete_todos=complete_todos, datetime=datetime.datetime.now())
 
 
 @app.route('/my-account', methods=['GET', 'POST'])
