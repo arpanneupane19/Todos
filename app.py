@@ -241,8 +241,6 @@ def create_todo():
         db.session.commit()
         return redirect(url_for('dashboard'))
 
-
-
     return render_template('create_todo.html', form=form)
 
 
