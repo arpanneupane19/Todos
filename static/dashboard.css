@@ -98,6 +98,7 @@ hr {
 	display: flex;
 	flex-direction: column;
 	line-height: normal;
+	margin-right: 10px;
 }
 
 .todo-info > .added-time {
