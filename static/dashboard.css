@@ -98,6 +98,7 @@ hr {
 	display: flex;
 	flex-direction: column;
 	line-height: normal;
+	justify-content: space-evenly;
 	margin-right: 10px;
 }
 
@@ -130,6 +131,9 @@ hr {
 	width: 424px;
 	margin-left: 20px;
 	margin-right: 20px;
+	height: 125px;
+	max-height: 125px;
+	overflow-y: auto;
 }
 
 .btn {
