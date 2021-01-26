@@ -78,7 +78,7 @@
 							<div class='todo-info'>
 								<p>{{todo.todo}}</p>
 								<p class='added-time'>Added at {{todo.todo_time.strftime('%I:%M %p')}} UTC</p>
-							</div><br>
+							</div>
 							<div class='icons'>
 								<a class='delete' href="{{ url_for('delete_todo', todo_id=todo.id)}}"><i class="far fa-trash-alt"></i></a>
 							</div>
