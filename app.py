@@ -93,11 +93,11 @@ class LoginForm(FlaskForm):
 
 
 class CreateForm(FlaskForm):
-    todo = StringField(validators=[InputRequired(), Length(min=4, max=130)], render_kw={"placeholder": "Enter Todo"})
+    todo = StringField(validators=[InputRequired(), Length(min=2, max=130)], render_kw={"placeholder": "Enter Todo"})
 
 
 class EditForm(FlaskForm):
-    todo = StringField(validators=[InputRequired(), Length(min=4, max=30)], render_kw={"placeholder": "Edit Todo"})
+    todo = StringField(validators=[InputRequired(), Length(min=2, max=130)], render_kw={"placeholder": "Edit Todo"})
 
 class ForgotPasswordForm(FlaskForm):
     email = StringField(validators=[InputRequired(), Email(message="Invalid Email"), Length(max=50)],render_kw={"placeholder": "Email Address"})
