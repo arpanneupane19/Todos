@@ -20,14 +20,13 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 app.config['SECRET_KEY'] = '1a83656b61b74d87935a23efa27b819d'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = os.environ.get("EMAIL_TODO")
 app.config['MAIL_PASSWORD'] = os.environ.get("PASSWORD_TODO")
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
-
 
 
 login_manager = LoginManager()
@@ -39,15 +38,18 @@ login_manager.login_view = "login"
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+
 @app.before_request
 def make_session_permanent():
     session.permanent = True
+
 
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     todo = db.Column(db.String(130), nullable=False)
     complete = db.Column(db.Boolean)
-    todo_time = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
+    todo_time = db.Column(db.DateTime, nullable=False,
+                          default=datetime.datetime.utcnow())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 
@@ -71,64 +73,85 @@ class User(db.Model, UserMixin):
             return None
         return User.query.get(user_id)
 
+
 class RegisterForm(FlaskForm):
-    email = StringField(validators=[InputRequired(), Email(message="Invalid Email"), Length(max=50)],render_kw={"placeholder": "Email Address"})
-    username = StringField(validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "Username"})
-    password = PasswordField("Password", validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "Password"})
+    email = StringField(validators=[InputRequired(), Email(
+        message="Invalid Email"), Length(max=50)], render_kw={"placeholder": "Email Address"})
+    username = StringField(validators=[InputRequired(), Length(
+        min=4, max=15)], render_kw={"placeholder": "Username"})
+    password = PasswordField("Password", validators=[InputRequired(), Length(
+        min=4, max=15)], render_kw={"placeholder": "Password"})
 
     def validate_username(self, username):
-        existing_user_username = User.query.filter_by(username=username.data).first()
+        existing_user_username = User.query.filter_by(
+            username=username.data).first()
         if existing_user_username:
-            raise ValidationError("That username already exists. Please choose a different one.")
-    
+            raise ValidationError(
+                "That username already exists. Please choose a different one.")
+
     def validate_email(self, email):
         existing_user_email = User.query.filter_by(email=email.data).first()
         if existing_user_email:
-            raise ValidationError("That email address belongs to different user. Please choose a different one.")
+            raise ValidationError(
+                "That email address belongs to different user. Please choose a different one.")
+
 
 class LoginForm(FlaskForm):
-    username = StringField(validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "Username"})
-    password = PasswordField("Password", validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "Password"})
+    username = StringField(validators=[InputRequired(), Length(
+        min=4, max=15)], render_kw={"placeholder": "Username"})
+    password = PasswordField("Password", validators=[InputRequired(), Length(
+        min=4, max=15)], render_kw={"placeholder": "Password"})
     submit = SubmitField('Login')
 
 
 class CreateForm(FlaskForm):
-    todo = StringField(validators=[InputRequired(), Length(min=2, max=130)], render_kw={"placeholder": "Enter Todo"})
+    todo = StringField(validators=[InputRequired(), Length(
+        min=2, max=130)], render_kw={"placeholder": "Enter Todo"})
 
 
 class EditForm(FlaskForm):
-    todo = StringField(validators=[InputRequired(), Length(min=2, max=130)], render_kw={"placeholder": "Edit Todo"})
+    todo = StringField(validators=[InputRequired(), Length(
+        min=2, max=130)], render_kw={"placeholder": "Edit Todo"})
+
 
 class ForgotPasswordForm(FlaskForm):
-    email = StringField(validators=[InputRequired(), Email(message="Invalid Email"), Length(max=50)],render_kw={"placeholder": "Email Address"})
+    email = StringField(validators=[InputRequired(), Email(
+        message="Invalid Email"), Length(max=50)], render_kw={"placeholder": "Email Address"})
 
 
 class ResetPasswordForm(FlaskForm):
-    email = StringField(validators=[InputRequired(), Email(message="Invalid Email"), Length(max=50)], render_kw={"placeholder": "Email Address"})
-    password = PasswordField(validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "New Password"})
-
+    email = StringField(validators=[InputRequired(), Email(
+        message="Invalid Email"), Length(max=50)], render_kw={"placeholder": "Email Address"})
+    password = PasswordField(validators=[InputRequired(), Length(
+        min=4, max=15)], render_kw={"placeholder": "New Password"})
 
 
 class UpdateAccountForm(FlaskForm):
-    email = StringField(validators=[InputRequired(), Email(message="Invalid Email"), Length(max=50)], render_kw={"placeholder": "Email"})
-    username = StringField(validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "Username"})
-    
+    email = StringField(validators=[InputRequired(), Email(
+        message="Invalid Email"), Length(max=50)], render_kw={"placeholder": "Email"})
+    username = StringField(validators=[InputRequired(), Length(
+        min=4, max=15)], render_kw={"placeholder": "Username"})
+
     def validate_username(self, username):
         if current_user.username != username.data:
             user = User.query.filter_by(username=username.data).first()
             if user:
-                raise ValidationError("That username already exists. Please choose a different one.")
+                raise ValidationError(
+                    "That username already exists. Please choose a different one.")
 
     def validate_email(self, email):
         if current_user.email != email.data:
             email = User.query.filter_by(email=email.data).first()
             if email:
-                raise ValidationError("That email address belongs to different user. Please choose a different one.")
+                raise ValidationError(
+                    "That email address belongs to different user. Please choose a different one.")
 
 
 class ChangePassword(FlaskForm):
-    email = StringField(validators=[InputRequired(), Email(message="Invalid Email"), Length(max=50)], render_kw={"placeholder": "Email Address"})
-    new_password = PasswordField(validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "New Password"})
+    email = StringField(validators=[InputRequired(), Email(
+        message="Invalid Email"), Length(max=50)], render_kw={"placeholder": "Email Address"})
+    new_password = PasswordField(validators=[InputRequired(), Length(
+        min=4, max=15)], render_kw={"placeholder": "New Password"})
 
 
 @app.route('/', methods=['GET', "POST"])
@@ -138,18 +161,19 @@ def home():
     form = RegisterForm()
 
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))        
+        return redirect(url_for('dashboard'))
 
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
-        new_user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        new_user = User(username=form.username.data,
+                        email=form.email.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
         flash('Your account was successfully created! You are able to login now.')
         return redirect(url_for('login'))
-    
 
     return render_template('home.html', form=form)
+
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -160,15 +184,15 @@ def page_not_found(e):
 def page_not_found(e):
     return render_template('403.html')
 
+
 @app.errorhandler(500)
 def page_not_found(e):
     return render_template('500.html')
 
 
-@app.route('/login', methods=['GET','POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-
 
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -187,13 +211,13 @@ def logout():
     return redirect(url_for('login'))
 
 
-
-
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    incomplete_todos = Todo.query.filter_by(writer=current_user, complete=False).all()
-    complete_todos = Todo.query.filter_by(writer=current_user, complete=True).all()
+    incomplete_todos = Todo.query.filter_by(
+        writer=current_user, complete=False).all()
+    complete_todos = Todo.query.filter_by(
+        writer=current_user, complete=True).all()
     return render_template('dashboard.html', incomplete_todos=incomplete_todos, complete_todos=complete_todos, datetime=datetime.datetime.now())
 
 
@@ -231,13 +255,15 @@ def change_password():
 
     return render_template('change_password.html', form=form)
 
-@app.route('/new-todo', methods=['GET','POST'])
+
+@app.route('/new-todo', methods=['GET', 'POST'])
 @login_required
 def create_todo():
     form = CreateForm()
     if form.validate_on_submit():
-        new_todo = Todo(todo=form.todo.data, writer=current_user, complete=False)
-        db.session.add(new_todo) 
+        new_todo = Todo(todo=form.todo.data,
+                        writer=current_user, complete=False)
+        db.session.add(new_todo)
         db.session.commit()
         return redirect(url_for('dashboard'))
 
@@ -252,7 +278,8 @@ def delete_todo(todo_id):
     db.session.commit()
     return redirect(url_for('dashboard'))
 
-@app.route('/complete-todo/<int:todo_id>', methods=['GET','POST'])
+
+@app.route('/complete-todo/<int:todo_id>', methods=['GET', 'POST'])
 @login_required
 def complete_todo(todo_id):
     todo = Todo.query.filter_by(id=todo_id, writer=current_user).first_or_404()
@@ -260,7 +287,8 @@ def complete_todo(todo_id):
     db.session.commit()
     return redirect(url_for('dashboard'))
 
-@app.route('/edit-todo/<int:todo_id>', methods=['GET','POST'])
+
+@app.route('/edit-todo/<int:todo_id>', methods=['GET', 'POST'])
 @login_required
 def edit_todo(todo_id):
     todo = Todo.query.filter_by(id=todo_id, writer=current_user).first_or_404()
@@ -297,7 +325,6 @@ def forgot_password():
         send_reset_email(user)
         flash('An email has been sent to that email address you provided. If this was an accidental request, you can ignore the email.')
 
-
     return render_template("forgot_password.html", form=form, title="Forgot Password")
 
 
@@ -318,9 +345,6 @@ def reset_password(token):
         flash('Your password has been updated! You are now able to log in.', 'success')
         return redirect(url_for('login'))
     return render_template('reset_password.html', title='Reset Password', form=form)
-
-
-
 
 
 if __name__ == '__main__':
