@@ -1,53 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Todos | 404</title>
-	<link rel='stylesheet' href="{{ url_for('static', filename='error.css')}}">
-	<link rel='shortcut icon' href="{{ url_for('static', filename='todos.png')}}">
-</head>
-<body>
-	<!-- Navbar -->
-	<div class='navbar'>
-		<div class="container flex">
-			<h1 class='logo'>Todos</h1>
-			<nav>
-				<ul>
-					{% if current_user.is_authenticated %}
-						<li><a href='/dashboard'>Home</a></li>
-						<li><a href="/new-todo">Create</a></li>
-						<li><a href="/my-account">Account</a></li>
-						<li><a href='/logout'>Logout</a></li>
-					{% else %}
-						<li><a href='/'>Home</a></li>
-						<li><a href='/login'>Login</a></li>
-					{% endif %}
-				</ul>
-			</nav>
-		</div>
-	</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todos | 404</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='error.css')}}"
+    />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='todos.png')}}"
+    />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <div class="navbar">
+      <div class="container flex">
+        <h1 class="logo">Todos</h1>
+        <nav>
+          <ul>
+            {% if current_user.is_authenticated %}
+            <li><a href="/dashboard">Home</a></li>
+            <li><a href="/new-todo">Create</a></li>
+            <li><a href="/my-account">Account</a></li>
+            <li><a href="/logout">Logout</a></li>
+            {% else %}
+            <li><a href="/">Home</a></li>
+            <li><a href="/login">Login</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </div>
 
-
-
-	<div class='error'>
-		<div class='container'>
-			<div class='error-msg card'>
-				<h1>404</h1>
-				<p>Oops, looks like that page does not exist.</p>
-				{% if current_user.is_authenticated %}
-				<div class='form-control'>
-					<a href='/dashboard' class='btn btn-primary'>Return to dashboard.</a>
-				</div>
-				{% else %}
-					<div class='form-control'>
-						<a href='/home' class='btn btn-primary'>Return home.</a>
-					</div>
-				{% endif %}
-			</div>
-		</div>
-	</div>
-
-
-</body>
+    <div class="error">
+      <div class="container">
+        <div class="error-msg card">
+          <h1>404</h1>
+          <p>Oops, looks like that page does not exist.</p>
+          {% if current_user.is_authenticated %}
+          <div class="form-control">
+            <a href="/dashboard" class="btn btn-primary"
+              >Return to dashboard.</a
+            >
+          </div>
+          {% else %}
+          <div class="form-control">
+            <a href="/home" class="btn btn-primary">Return home.</a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

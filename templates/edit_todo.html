@@ -1,52 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Todos | Edit Todo</title>
-	<link rel='stylesheet' href="{{ url_for('static', filename='edit_todo.css')}}">
-	<link rel='shortcut icon' href="{{ url_for('static', filename='todos.png')}}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='edit_todo.css')}}" />
+	<link rel="shortcut icon" href="{{ url_for('static', filename='todos.png')}}" />
 </head>
+
 <body>
 	<!-- Navbar -->
-	<div class='navbar'>
+	<div class="navbar">
 		<div class="container flex">
-			<h1 class='logo'>Todos</h1>
+			<h1 class="logo">Todos</h1>
 			<nav>
 				<ul>
-					<li><a href='/dashboard'>Home</a></li>
+					<li><a href="/dashboard">Home</a></li>
 					<li><a href="/new-todo">Create</a></li>
 					<li><a href="/my-account">Account</a></li>
-					<li><a href='/logout'>Logout</a></li>
+					<li><a href="/logout">Logout</a></li>
 				</ul>
 			</nav>
 		</div>
 	</div>
 
-
-
-	<div class='todos'>
-		<div class='container'>
+	<div class="todos">
+		<div class="container">
 			<h1>Edit Todo</h1>
-			<hr>
-			<div class='edit-todo card'>
-				<form method='POST' action=''>
+			<hr />
+			<div class="edit-todo card">
+				<form method="POST" action="">
 					{{form.hidden_tag()}}
-					<div class='form-control'>
-						{{form.todo}}
-					</div>
-					<div class='form-control'>
-						{{form.time}}
-					</div>
-					<div class='form-control'>
-						<input type='submit' value='Save Changes' class='btn btn-primary'>
+					<div class="form-control">{{form.todo}}</div>
+					<div class="form-control">{{form.time}}</div>
+					<div class="form-control">
+						<input type="submit" value="Save Changes" class="btn btn-primary" />
 					</div>
 				</form>
 			</div>
 		</div>
-
 	</div>
-
-
 </body>
+
 </html>

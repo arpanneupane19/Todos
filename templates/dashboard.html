@@ -1,96 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-	<title>Todos | Dashboard</title>
-	<link rel='stylesheet' href="{{ url_for('static', filename='dashboard.css')}}">
-	<link rel='shortcut icon' href="{{ url_for('static', filename='todos.png')}}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.0/css/font-awesome.min.css">
+  <title>Todos | Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css')}}" />
+  <link rel="favicon" href="{{ url_for('static', filename='todos.png')}}" />
 </head>
+
 <body>
-	<!-- Navbar -->
-	<div class='navbar'>
-		<div class="container flex">
-			<h1 class='logo'>Todos</h1>
-			<nav>
-				<ul>
-					<li><a href='/dashboard'>Home</a></li>
-					<li><a href="/new-todo">Create</a></li>
-					<li><a href="/my-account">Account</a></li>
-					<li><a href='/logout'>Logout</a></li>
-				</ul>
-			</nav>
-		</div>
-	</div>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="container flex">
+      <h1 class="logo">Todos</h1>
+      <nav>
+        <ul>
+          <li><a href="/dashboard">Home</a></li>
+          <li><a href="/new-todo">Create</a></li>
+          <li><a href="/my-account">Account</a></li>
+          <li><a href="/logout">Logout</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
 
+  <!-- Todos Section -->
+  <div class="todos">
+    <div class="container">
+      <h1>My Todos</h1>
+      <br />
+      <div class="incomplete-todos">
+        <h2>Incomplete</h2>
+        <hr />
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %}
+        <ul class="flashes">
+          {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %} {% endwith %}<br />
+        <div class="all-todos">
+          {% for todo in incomplete_todos %}
+          <div class="todo card">
+            <div class="todo-info">
+              <p>{{todo.todo}}</p>
+              <p class="added-time">
+                Added at {{todo.todo_time.strftime('%I:%M %p')}} UTC
+              </p>
+            </div>
+            <div class="icons">
+              <a class="edit" href="{{ url_for('edit_todo', todo_id=todo.id)}}"><i class="far fa-edit"></i></a>
+              <a class="complete" href="{{ url_for('complete_todo', todo_id=todo.id)}}"><i
+                  class="far fa-check-square"></i></a>
+              <a class="delete" href="{{ url_for('delete_todo', todo_id=todo.id)}}"><i class="far fa-trash-alt"></i></a>
+            </div>
+          </div>
 
+          {% endfor %}
+        </div>
+      </div>
+    </div>
 
-	<!-- Todos Section -->
-	<div class='todos'>
-
-		<div class='container'>
-			<h1>My Todos</h1><br>
-			<div class='incomplete-todos'>
-				<h2>Incomplete</h2>
-				<hr>
-				{% with messages = get_flashed_messages(with_categories=true) %}
-				{% if messages %}
-					<ul class=flashes>
-					{% for category, message in messages %}
-					<li class="{{ category }}">{{ message }}</li>
-					{% endfor %}
-					</ul>
-				{% endif %}
-				{% endwith %}<br>
-				<div class='all-todos'>
-
-					{% for todo in incomplete_todos %}
-						<div class='todo card'>
-							<div class='todo-info'>
-								<p>{{todo.todo}}</p>
-								<p class='added-time'>Added at {{todo.todo_time.strftime('%I:%M %p')}} UTC</p>
-							</div>
-							<div class='icons'>
-								<a class='edit' href="{{ url_for('edit_todo', todo_id=todo.id)}}"><i class="far fa-edit"></i></a>
-								<a class='complete' href="{{ url_for('complete_todo', todo_id=todo.id)}}"><i class="far fa-check-square"></i></a>
-								<a class='delete' href="{{ url_for('delete_todo', todo_id=todo.id)}}"><i class="far fa-trash-alt"></i></a>
-							</div>
-						</div>
-						
-					{% endfor %}
-
-
-				</div>
-			</div>
-		</div>
-		
-		
-		<div class='container'>
-			<div class='complete-todos'>
-				<h2>Complete</h2>
-				<hr>
-				<div class='all-todos'>
-					{% for todo in complete_todos %}
-						<div class='todo card'>
-							<div class='todo-info'>
-								<p>{{todo.todo}}</p>
-								<p class='added-time'>Added at {{todo.todo_time.strftime('%I:%M %p')}} UTC</p>
-							</div>
-							<div class='icons'>
-								<a class='delete' href="{{ url_for('delete_todo', todo_id=todo.id)}}"><i class="far fa-trash-alt"></i></a>
-							</div>
-						</div>
-					{% endfor %}
-				</div>
-	
-			</div>
-		</div>
-
-	</div>
-
-
-
-
+    <div class="container">
+      <div class="complete-todos">
+        <h2>Complete</h2>
+        <hr />
+        <div class="all-todos">
+          {% for todo in complete_todos %}
+          <div class="todo card">
+            <div class="todo-info">
+              <p>{{todo.todo}}</p>
+              <p class="added-time">
+                Added at {{todo.todo_time.strftime('%I:%M %p')}} UTC
+              </p>
+            </div>
+            <div class="icons">
+              <a class="delete" href="{{ url_for('delete_todo', todo_id=todo.id)}}"><i class="far fa-trash-alt"></i></a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
+
 </html>

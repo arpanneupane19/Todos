@@ -1,70 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Todos | My Account</title>
-	<link rel='stylesheet' href="{{ url_for('static', filename='account.css')}}">
-	<link rel='shortcut icon' href="{{ url_for('static', filename='todos.png')}}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='account.css')}}" />
+	<link rel="shortcut icon" href="{{ url_for('static', filename='todos.png')}}" />
 </head>
+
 <body>
 	<!-- Navbar -->
-	<div class='navbar'>
+	<div class="navbar">
 		<div class="container flex">
-			<h1 class='logo'>Todos</h1>
+			<h1 class="logo">Todos</h1>
 			<nav>
 				<ul>
-					<li><a href='/dashboard'>Home</a></li>
+					<li><a href="/dashboard">Home</a></li>
 					<li><a href="/new-todo">Create</a></li>
 					<li><a href="/my-account">Account</a></li>
-					<li><a href='/logout'>Logout</a></li>
+					<li><a href="/logout">Logout</a></li>
 				</ul>
 			</nav>
 		</div>
 	</div>
 
-	
-
-
 	<!-- Account card -->
-	<div class='account'>
-		<div class='container'>
+	<div class="account">
+		<div class="container">
 			<h1>{{ current_user.username }}</h1>
-			<hr>
+			<hr />
 
-			<div class='edit-account card'>
-				<form method='POST' action=''>
+			<div class="edit-account card">
+				<form method="POST" action="">
 					{{form.hidden_tag()}}
-					<div class='form-control'>
-						{{form.username}}
+					<div class="form-control">{{form.username}}</div>
+					<div class="form-control">{{form.email}}</div>
+					<div class="form-control">
+						<a href="/change-password">Change Password?</a>
 					</div>
-					<div class='form-control'>
-						{{form.email}}
-					</div>
-					<div class='form-control'>
-						<a href='/change-password'>Change Password?</a>
-					</div>
-					<div class='form-control'>
-						<input type='submit' value='Update Account' class='btn btn-primary'>
+					<div class="form-control">
+						<input type="submit" value="Update Account" class="btn btn-primary" />
 					</div>
 				</form>
 			</div>
-			{% with messages = get_flashed_messages(with_categories=true) %}
-			{% if messages %}
-				<ul class=flashes>
+			{% with messages = get_flashed_messages(with_categories=true) %} {% if
+			messages %}
+			<ul class="flashes">
 				{% for category, message in messages %}
 				<li class="{{ category }}">{{ message }}</li>
 				{% endfor %}
-				</ul>
-			{% endif %}
-			{% endwith %}
-
+			</ul>
+			{% endif %} {% endwith %}
 		</div>
-
-
 	</div>
-	
-
-
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
 	<link rel='stylesheet' href="{{ url_for('static', filename='login.css')}}">
 	<link rel='shortcut icon' href="{{ url_for('static', filename='todos.png')}}">
 </head>
+
 <body>
 	<!-- Navbar -->
 	<div class='navbar'>
@@ -30,41 +32,42 @@
 			</div>
 
 
-		<div class='login-form card'>
-			<h2>Login</h2>
-			{% with messages = get_flashed_messages(with_categories=true) %}
-			{% if messages %}
+			<div class='login-form card'>
+				<h2>Login</h2>
+				{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
 				<ul class=flashes>
-				{% for category, message in messages %}
-				<li class="{{ category }}">{{ message }}</li>
-				{% endfor %}
+					{% for category, message in messages %}
+					<li class="{{ category }}">{{ message }}</li>
+					{% endfor %}
 				</ul>
-			{% endif %}
-			{% endwith %}
-			<form method='POST' action=''>
-				{{form.hidden_tag()}}
-				<div class='form-control'>
-					{{form.username}}
-				</div>
-				<div class='form-control'>
-					{{form.email}}
-				</div>
-				<div class='form-control'>
-					{{form.password}}
-				</div>
-				<div class='form-control'>
-					<input type='submit' value='Log in' class='btn btn-primary'>
-				</div>
-				<div class='form-control'>
-					<a href='/forgot-password'>Forgot your password?</a>
-				</div>
-				<div class='form-control sign-up'>
-					<a href='/sign-up'>Don't have an account? Sign Up.</a>
-				</div>
-			</form>
+				{% endif %}
+				{% endwith %}
+				<form method='POST' action=''>
+					{{form.hidden_tag()}}
+					<div class='form-control'>
+						{{form.username}}
+					</div>
+					<div class='form-control'>
+						{{form.email}}
+					</div>
+					<div class='form-control'>
+						{{form.password}}
+					</div>
+					<div class='form-control'>
+						<input type='submit' value='Log in' class='btn btn-primary'>
+					</div>
+					<div class='form-control'>
+						<a href='/forgot-password'>Forgot your password?</a>
+					</div>
+					<div class='form-control sign-up'>
+						<a href='/sign-up'>Don't have an account? Sign Up.</a>
+					</div>
+				</form>
 
-		</div>
+			</div>
 
 	</section>
 </body>
+
 </html>
